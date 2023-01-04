@@ -10,6 +10,10 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+// sign
+char AUTHOR[] = "Author: NewDawn0";
+char RELEASE_DATE[] = "Release Date: 03.01.2023";
+
 //define
 #define RESET "\x1b[0m"
 #define BRED "\x1b[1;31m"
