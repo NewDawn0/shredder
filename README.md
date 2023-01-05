@@ -1,6 +1,8 @@
 # shredder
-shredder - A File/Folder shredding utility
+shredder - A File/Folder shredding utility that uses multithreading to securely delete files by overwriting them a bunch of times bevore deleting them</br>
+This shreading utility allows for fast secure file and folder deletion
 
+### Contents 
 <!-- vim-markdown-toc GFM -->
 
 * [Installation](#installation)
