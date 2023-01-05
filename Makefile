@@ -1,7 +1,7 @@
 CC = gcc
 OUTFILE = shredder
 OUTDIR = bin
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -O2
 OBJS = shredder.c
 OBJSDIR = src
 
