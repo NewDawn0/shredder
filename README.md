@@ -31,5 +31,5 @@ shredder <files/options>
 ```
 
 ### Future plans
-- [ ] Add makefile
+- [x] Add makefile
 - [ ] Use C only without system() and sh
