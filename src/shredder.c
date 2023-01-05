@@ -1,3 +1,13 @@
+///////////////////////////////////////////////////
+// shredder - A File&Folder shredding utility    //
+// Project: shredder                             //
+// File: shredder.c                              //
+// Version: c                                    //
+// Copyright: NewDawn0 (Tom) 05.01.2023          //
+// License: MIT                                  //
+///////////////////////////////////////////////////
+
+// libs
 #include <stdio.h>
 #include <errno.h>
 #include <dirent.h>
