@@ -33,7 +33,7 @@ func main() {
 				fmt.Printf("%sError:%s %v\n", red, nc, err)
 			}
 		}
-		fmt.Printf("\x1b%sInfo:%s Deleting %s\n", green, nc, os.Args[1])
+		fmt.Printf("\x1b[2K%sInfo:%s Deleting %s\n", green, nc, os.Args[1])
 		os.RemoveAll(os.Args[1])
 		return
 	}
@@ -55,11 +55,12 @@ func getFiles(path string) ([]string, []string, error) {
 			return err
 		}
 		if lstatInfo.Mode()&os.ModeSymlink != 0 {
-			fmt.Printf("\x1b%sInfo:%s Deleting symlink: %s\n", green, nc, path)
+			fmt.Printf("\x1b[2K%sInfo:%s Deleting symlink: %s\n", green, nc, path)
 			os.Remove(path)
 			return nil
 		}
-		if info.Mode().Perm()&os.ModePerm == os.ModePerm { // Check for write permission
+		r, w := checkPerms(info)
+		if !r || !w {
 			insufficientPerms = append(insufficientPerms, path)
 			return nil
 		}
@@ -71,6 +72,15 @@ func getFiles(path string) ([]string, []string, error) {
 		return nil, nil, err
 	}
 	return changedFiles, insufficientPerms, nil
+}
+
+func checkPerms(info os.FileInfo) (bool, bool) {
+	hasRead := info.Mode()&0400 != 0
+	hasWrite := info.Mode()&0200 != 0
+	if uid := os.Getuid(); uid == 0 {
+		return true, true
+	}
+	return hasRead, hasWrite
 }
 
 func shredFile(path string, count, total int) error {
