@@ -10,6 +10,7 @@ import (
 const randomFile = "/dev/urandom"
 const zeroFile = "/dev/zero"
 const red = "\x1b[31;1m"
+const green = "\x1b[32;1m"
 const nc = "\x1b[0m"
 
 func main() {
@@ -23,7 +24,7 @@ func main() {
 			os.Exit(1)
 		}
 		if err != nil {
-			fmt.Printf("Error: %v\n", err)
+			fmt.Printf("%sError:%s %v\n", red, nc, err)
 			return
 		}
 		for count, file := range files {
@@ -32,8 +33,9 @@ func main() {
 				fmt.Printf("%sError:%s %v\n", red, nc, err)
 			}
 		}
-		// os.RemoveAll(os.Args[1])
-		fmt.Println()
+		fmt.Printf("%sInfo:%s Deleting %s\n", green, nc, os.Args[1])
+		os.RemoveAll(os.Args[1])
+		return
 	}
 }
 
@@ -45,6 +47,16 @@ func getFiles(path string) ([]string, []string, error) {
 			return err
 		}
 		if info.IsDir() {
+			return nil
+		}
+		// Skip symlinks
+		lstatInfo, err := os.Lstat(path)
+		if err != nil {
+			return err
+		}
+		if lstatInfo.Mode()&os.ModeSymlink != 0 {
+			fmt.Printf("%sInfo:%s Deleting symlink: %s\n", green, nc, path)
+			os.Remove(path)
 			return nil
 		}
 		if info.Mode().Perm()&os.ModePerm == os.ModePerm { // Check for write permission
@@ -114,5 +126,6 @@ func shredFile(path string, count, total int) error {
 	if err != nil {
 		return fmt.Errorf("Unable to overwrite %s with data from %s: %v", path, zeroFile, err)
 	}
+	os.Remove(path)
 	return nil
 }
