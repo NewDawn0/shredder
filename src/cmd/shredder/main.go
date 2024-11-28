@@ -32,7 +32,7 @@ func main() {
 				fmt.Printf("%sError:%s %v\n", red, nc, err)
 			}
 		}
-		os.RemoveAll(os.Args[1])
+		// os.RemoveAll(os.Args[1])
 		fmt.Println()
 	}
 }
@@ -47,7 +47,7 @@ func getFiles(path string) ([]string, []string, error) {
 		if info.IsDir() {
 			return nil
 		}
-		if info.Mode().Perm()&0200 == 0 { // Check for write permission
+		if info.Mode().Perm()&os.ModePerm == os.ModePerm { // Check for write permission
 			insufficientPerms = append(insufficientPerms, path)
 			return nil
 		}
