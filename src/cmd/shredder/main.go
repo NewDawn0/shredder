@@ -33,7 +33,7 @@ func main() {
 				fmt.Printf("%sError:%s %v\n", red, nc, err)
 			}
 		}
-		fmt.Printf("%sInfo:%s Deleting %s\n", green, nc, os.Args[1])
+		fmt.Printf("\x1b%sInfo:%s Deleting %s\n", green, nc, os.Args[1])
 		os.RemoveAll(os.Args[1])
 		return
 	}
@@ -55,7 +55,7 @@ func getFiles(path string) ([]string, []string, error) {
 			return err
 		}
 		if lstatInfo.Mode()&os.ModeSymlink != 0 {
-			fmt.Printf("%sInfo:%s Deleting symlink: %s\n", green, nc, path)
+			fmt.Printf("\x1b%sInfo:%s Deleting symlink: %s\n", green, nc, path)
 			os.Remove(path)
 			return nil
 		}
