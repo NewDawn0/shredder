@@ -15,14 +15,21 @@
         let pkgs = nixpkgs.legacyPackages.${system};
         in {
           default = pkgs.buildGoModule {
-            name = "shredder";
+            pname = "shredder";
+            version = "1.0.0";
             src = ./.;
             vendorHash = null;
-            meta = with pkgs.lib; {
-              description = "Secure file deletion for the paranoid ones";
+            meta = {
+              description =
+                "A tool for securely deleting files to ensure privacy";
+              longDescription = ''
+                This tool securely deletes files, ensuring they cannot be recovered.
+                Ideal for users who require extra privacy and need to ensure sensitive data is completely erased from their system.
+              '';
               homepage = "https://github.com/NewDawn0/shredder";
-              maintainers = with maintainers; [ NewDawn0 ];
-              license = licenses.mit;
+              license = pkgs.lib.licenses.mit;
+              maintainers = with pkgs.lib.maintainers; [ NewDawn0 ];
+              platforms = pkgs.lib.platforms.all;
             };
           };
         });
